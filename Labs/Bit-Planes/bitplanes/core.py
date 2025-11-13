@@ -12,7 +12,9 @@ class BitPlane:
         self.bitplanes = self.__extract_bitplanes(pixels)
 
     def is_grayscale(self, img: Image.Image) -> bool:
-        "Check if an image is grayscale."
+        """
+        Check if an image is grayscale.
+        """
         if img.mode == "L":
             return True
 
