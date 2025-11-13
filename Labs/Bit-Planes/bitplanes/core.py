@@ -23,7 +23,9 @@ class BitPlane:
         return False
 
     def __color_to_gray(self, img_title):
-        "Convert color image to grayscale format."
+        """
+        Convert color image to grayscale format.
+        """
 
         img = Image.open(img_title)
         if not self.is_grayscale(img):
