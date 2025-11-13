@@ -1,6 +1,6 @@
 """Uniform Quantization
 
-Quantization refers to the number of grayscales used to represent an image. Most iamges will have 256 grayscales, which is more than enough for the needs of human vision. However, in some circumstances it may be more practical to represent the image with fewer grayscales.
+Quantization refers to the number of grayscales used to represent an image. Most images will have 256 grayscales, which is more than enough for the needs of human vision. However, in some circumstances it may be more practical to represent the image with fewer grayscales.
 
 One simple way to do this is by uniform quantization. To represent an image with only n grayscales:
 - we divide the range of grayscales into n equal (or nearly equal) ranges
