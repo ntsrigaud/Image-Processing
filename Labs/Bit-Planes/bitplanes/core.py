@@ -34,7 +34,9 @@ class BitPlane:
         return img
 
     def __extract_bitplanes(self, gray: np.ndarray):
-        "Extract all the bitplanes and return them in a list."
+        """
+        Extract all the bitplanes and return them in a list.
+        """
 
         planes = []
         for i in range(8):
