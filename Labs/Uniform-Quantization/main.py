@@ -25,7 +25,7 @@ N_GRAYSCALES = [2, 4, 8, 16, 32, 64, 128]
 def main():
     for img in IMAGES:
         for n in N_GRAYSCALES:
-            uq = UniformQuantization(DATA_DIR + img, n)
+            uq = UniformQuantization(os.path.join(DATA_DIR, img), n)
             name, _ = os.path.splitext(img)
             uq.save_quantized_image("out", name + f"_quantization_{n}")
 
