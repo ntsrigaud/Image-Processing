@@ -1,6 +1,6 @@
 """Bit planes
 
-Grayscale images can be transformed into sequences of binary images by breaking them into their bitplanes. If we consider the gray value of each pixel of an 8-bit image as an 8-bit binary word, then the zeroth bit plane consists of the last bit of each gray value and is called the least significant bit. Similarly the eigth bit plane consists of the first bit of each gray value, called the most significant bit.
+Grayscale images can be transformed into sequences of binary images by breaking them into their bitplanes. If we consider the gray value of each pixel of an 8-bit image as an 8-bit binary word, then the zeroth bit plane consists of the last bit of each gray value and is called the least significant bit. Similarly the eighth bit plane consists of the first bit of each gray value, called the most significant bit.
 
 If we take a grayscale image, we start by making a matrix of type double, we can perform arithmetic on the values.Thus, we can isolate the bit planes simply by dividing the obtained matrix by successive power of 2, throwing away the remainder and seeing if the final bit is 0 or 1.
 
