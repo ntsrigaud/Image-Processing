@@ -12,7 +12,7 @@ We use the analogous bit-extraction approach to isolate the bitplanes:
 This sample program demonstrates this process by:
 - Taking an input RGB image
 - Convert it to grayscale
-- Obtain, save and display the different bit planes from the image.
+- obtain and save the different bit planes from the image.
 """
 
 import os
