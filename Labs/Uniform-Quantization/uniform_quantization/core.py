@@ -12,6 +12,7 @@ class UniformQuantization:
         self.pixels = np.array(self.img).astype(np.uint8)
 
         assert n_grayscales > 0, "n_grayscales must be a positive integer greater than 0"
+        assert n_grayscales <= DEFAULT_IMG_GRAYSCALE, f"n_grayscales must be less than or equal to {DEFAULT_IMG_GRAYSCALE}"
 
         # ---- Uniform Quantization Process ----
         div = np.floor(DEFAULT_IMG_GRAYSCALE / n_grayscales)
