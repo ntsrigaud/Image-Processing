@@ -43,7 +43,7 @@ class UniformQuantization:
         return img
 
     def save_quantized_image(self, out_dir: str, prefix="quantized"):
-        """Save quantized image to  disk as PNG."""
+        """Save quantized image to disk as PNG."""
 
         os.makedirs(out_dir, exist_ok=True)
         img = Image.fromarray(self.pixels)
