@@ -61,7 +61,7 @@ display(img_out)
 
 Adding a constant value of 128 results in a brighter image where most pixel values are most closer to a white gray value. This results in the disappearance of some edges such are in the wall corner and the details in the background are less visible.
 
-### Substraction
+### Subtraction
 
 ```python
 img_res = np.clip(img_pixels.astype(np.int16) - 128, 0, 255).astype(np.uint8)
