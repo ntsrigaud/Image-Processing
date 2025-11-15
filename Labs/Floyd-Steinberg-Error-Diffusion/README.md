@@ -9,11 +9,14 @@ The idea is to spread this error over neighboring pixels. A popular method, deve
 1. Perform the quantization.
 2. Calculate the quantization error. This is defined as:
    $$
-    E=
-    \begin{cases}
-      p(i, j), & \text{if}\ p(i, j) < 128 \\
-      p(i, j) - 255, & \text{otherwise}
-    \end{cases}
+    E = p(i, j) - Q(p(i, j))
+   $$
+   where
+   $$
+   Q(p(i, j)) = \begin{cases}
+     0, & \text{if } p(i, j) < 128 \\
+     255, & \text{otherwise}
+   \end{cases}
    $$
 3. Spread this error $E$ over pixels to the right and below according to this table:
 
