@@ -155,7 +155,7 @@ plt.show()
 
 ![png](Floyd-Steinberg-Error-Diffusion_files/Floyd-Steinberg-Error-Diffusion_16_0.png)
 
-As we can see, the **Floyd-Steinberg** method gives the best quantized output among the three. From a human perspective, the quality is almost the same as the original output. This denotes the efficiency, performance and superiority of the **Floyd-Steinberg** algorithm. In term of applicability, this would be a good solution for object detection, since the object features would be easily recognized from the quantized image.
+As we can see, the **Floyd-Steinberg** method gives the best quantized output among the three. From a human perspective, the quality is almost the same as the original output. This denotes the efficiency, performance and superiority of the **Floyd-Steinberg** algorithm. In terms of applicability, this would be a good solution for object detection, since the object features would be easily recognized from the quantized image.
 
 ### References
 
