@@ -4,7 +4,7 @@ Dithering refers to the process of reducing the number of colors in an image. It
 
 One immediate consequence of uniform quantization is that of false contours, mostly noticeable with fewer grayscales. One method of dealing with false contours involves adding random values to the image before quantization.
 
-This jupyter notebook in this directory involves applying the dithering process to an RGB or grayscale image, compare with previously obtained image which used direct uniform quantization method with only two (2) grayscale values, and finaly applying the uniform quantization method to the obtained dithered image.
+This jupyter notebook in this directory involves applying the dithering process to an RGB or grayscale image, compare with previously obtained image which used direct uniform quantization method with only two (2) grayscale values, and finally applying the uniform quantization method to the obtained dithered image.
 
 ### Dithering Results
 
