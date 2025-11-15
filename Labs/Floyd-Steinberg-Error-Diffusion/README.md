@@ -82,7 +82,7 @@ def fl_stein(img: np.ndarray) -> np.ndarray:
     for i in range(1, row + 1):
         for j in range(1, col + 1):
             old = padded[i, j]
-            # Quantize this pixel (binary threshold here; replace with palette logic for multilevel)
+            # Quantize this pixel using binary threshold (0 or 255). For multilevel quantization, significant changes are required.
             new = 0.0 if old < 128.0 else 255.0
             result[i-1, j-1] = np.uint8(new)
             error = old - new
