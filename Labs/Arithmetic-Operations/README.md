@@ -191,7 +191,7 @@ The background and its edges are more in perspective and the details about the d
 # convert to a sane dtype first
 px = img_pixels.astype(np.int16)
 mask = px >= 128
-px[mask] = px[mask] - 255
+px[mask] = 255 - px[mask]
 
 img_res = np.clip(px, 0, 255).astype(np.uint8)
 
