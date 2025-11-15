@@ -185,7 +185,7 @@ display(img_out)
 
 The background and its edges are more prominent and the details about the dark objects are less visible.
 
-#### Case 2: Greater to or equal to 128
+#### Case 2: Greater than or equal to 128
 
 ```python
 # convert to a sane dtype first
