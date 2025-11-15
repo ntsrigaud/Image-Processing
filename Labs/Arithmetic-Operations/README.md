@@ -59,7 +59,7 @@ display(img_out)
 
 ![png](Arithmetic-Operations_files/Arithmetic-Operations_9_1.png)
 
-Adding a constant value of 128 results in a brighter image where most pixel values are most closer to a white gray value. This results in the disapearance of some edges such are in the wall corner and the details in the background are less visible.
+Adding a constant value of 128 results in a brighter image where most pixel values are most closer to a white gray value. This results in the disappearance of some edges such are in the wall corner and the details in the background are less visible.
 
 ### Substraction
 
