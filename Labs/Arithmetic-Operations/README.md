@@ -193,7 +193,7 @@ px = img_pixels.astype(np.int16)
 mask = px >= 128
 px[mask] = 255 - px[mask]
 
-img_res = np.clip(px, 0, 255).astype(np.uint8)
+img_res = px.astype(np.uint8)
 
 print(img_res)
 
