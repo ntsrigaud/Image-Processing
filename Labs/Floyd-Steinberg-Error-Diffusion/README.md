@@ -24,7 +24,7 @@ The idea is to spread this error over neighboring pixels. A popular method, deve
 
 There are several points to note about this algorithm:
 
-- The error is spread to pixels `before` quantization is performed on them. Thus, the error diffusion will affect the quantization level of those pixels.
+- The error is spread to pixels before quantization is performed on them. Thus, the error diffusion will affect the quantization level of those pixels.
 - Once a pixel has been quantized, its value will never be affected because the error diffusion affects pixels only to the right and below, and we are working from the left and above.
 - To implement this algorithm, we need to embed the image in a larger array of zeros so that the indices do not go outside the bounds of array.
 
