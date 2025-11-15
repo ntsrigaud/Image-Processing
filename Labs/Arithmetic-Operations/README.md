@@ -183,7 +183,7 @@ display(img_out)
 
 ![png](Arithmetic-Operations_files/Arithmetic-Operations_25_1.png)
 
-The colors are inverted but the result feature more brighter areas than dark ones are in the previous case.
+The colors are inverted but the result features brighter areas than dark ones in the previous case.
 
 #### Case 2: Greater to or equal to 128
 
