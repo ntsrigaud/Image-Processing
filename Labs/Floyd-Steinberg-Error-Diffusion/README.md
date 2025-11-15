@@ -15,7 +15,7 @@ The idea is to spread this error over neighboring pixels. A popular method, deve
       p(i, j) - 255, & \text{otherwise}
     \end{cases}
    $$
-3. Spread this error $E$ over pixels to the right and belong according to this table:
+3. Spread this error $E$ over pixels to the right and below according to this table:
 
    ![Error diffusion process over pixels](imgs/pixel_error_diffusion_table.png)
 
