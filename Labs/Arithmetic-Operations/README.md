@@ -163,7 +163,7 @@ Interesting special effects can be obtained by complementing only part of the im
 # convert to a sane dtype first
 px = img_pixels.astype(np.int16)
 mask = px <= 128
-px[mask] = px[mask] - 255
+px[mask] = 255 - px[mask]
 
 img_res = np.clip(px, 0, 255).astype(np.uint8)
 
@@ -177,15 +177,15 @@ display(img_out)
      [181 181 181 ... 146 145 145]
      [181 181 181 ... 146 145 145]
      ...
-     [  0   0   0 ...   0   0   0]
-     [  0   0   0 ...   0   0   0]
-     [  0   0   0 ...   0 158 173]]
+     [140 139 138 ... 244 235 221]
+     [138 137 136 ... 177 183 190]
+     [137 136 136 ... 130 158 173]]
 
 ![png](Arithmetic-Operations_files/Arithmetic-Operations_25_1.png)
 
-The background and its edges are more prominent and the details about the dark objects are less visible.
+The colors are inverted but the result feature more brighter areas than dark ones are in the previous case.
 
-#### Case 2: Greater than or equal to 128
+#### Case 2: Greater to or equal to 128
 
 ```python
 # convert to a sane dtype first
@@ -201,18 +201,19 @@ img_out = Image.fromarray(img_res)
 display(img_out)
 ```
 
-    [[  0   0   0 ...   0   0   0]
-     [  0   0   0 ...   0   0   0]
-     [  0   0   0 ...   0   0   0]
+    [[ 74  74  74 ... 109 109 110]
+     [ 74  74  74 ... 109 110 110]
+     [ 74  74  74 ... 109 110 110]
      ...
-     [116 117 118 ...  12  21  35]
-     [118 119 120 ...  79  73  66]
-     [119 120 120 ... 126   0   0]]
+     [115 116 117 ...  11  20  34]
+     [117 118 119 ...  78  72  65]
+     [118 119 119 ... 125  97  82]]
 
 ![png](Arithmetic-Operations_files/Arithmetic-Operations_28_1.png)
 
-Here we have the inverse situation compared to previously where the details of most objects are visible and the background is totally absent.
+Here we have the inverse situation compared to previously where there is an emphasis on darker regions but still keep the details with good visibility.
 
-```python
+### References
 
-```
+- Introduction to Digital Image Processing with MATLAB, Alasdair McAndrew, 2004
+- Image : [Clay Banks - Modern living room with fireplace and forest view](https://unsplash.com/photos/modern-living-room-with-fireplace-and-forest-view-fZHP8uq6WhQ)
