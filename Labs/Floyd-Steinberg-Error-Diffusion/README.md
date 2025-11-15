@@ -65,7 +65,7 @@ def fl_stein(img: np.ndarray) -> np.ndarray:
     Input:
       img : 2D numpy array, dtype uint8 (0-255)
     Returns:
-      2D numpy array, dtype uint8 (0 or 255 typically, depending on thresholds)
+      2D numpy array, dtype uint8, with binary values (0 or 255)
     """
     if img.ndim != 2:
         raise ValueError("Only 2D grayscale images supported")
