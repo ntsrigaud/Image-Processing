@@ -138,7 +138,7 @@ img_list = [original_img,  uniform_quantized_img, dithered_img, quantized_img]
 labels = [
     "Original",
     "Uniform Quantization",
-    "Standard Ditherization",
+    "Standard Dithering",
     "Floyd–Steinberg Quantized Output"
 ]
 
