@@ -183,7 +183,7 @@ display(img_out)
 
 ![png](Arithmetic-Operations_files/Arithmetic-Operations_25_1.png)
 
-The background and its edges are more in perspective and the details about the dark objects are less visible.
+The background and its edges are more prominent and the details about the dark objects are less visible.
 
 #### Case 2: Greater to or equal to 128
 
