@@ -90,8 +90,8 @@ def fl_stein(img: np.ndarray) -> np.ndarray:
             padded[i+1, j]     += (5/16) * error
             padded[i+1, j+1]   += (1/16) * error
 
-    # Clip final result to valid range just in case
-    return np.clip(result, 0, 255).astype(np.uint8)
+    # Return result directly; values are already valid uint8 (0 or 255)
+    return result
 ```
 
 #### Apply Procedure
