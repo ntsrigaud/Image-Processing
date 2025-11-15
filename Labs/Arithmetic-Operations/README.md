@@ -128,7 +128,7 @@ display(img_out)
 
 ![png](Arithmetic-Operations_files/Arithmetic-Operations_18_1.png)
 
-In this case, the darker regions are again put more perspective whereas the previous lighter regions disappear.
+In this case, the darker regions are again put into more perspective whereas the previous lighter regions disappear.
 
 ## Image Complement
 
