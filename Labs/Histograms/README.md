@@ -169,7 +169,7 @@ plt.show()
 
 ![png](Histograms_files/Histograms_12_0.png)
 
-The histogram equalization procedure provide a cleaner, brighter and sharper image where the details are more visible, especially with the reflections that were totally invisible before.
+The histogram equalization procedure provides a cleaner, brighter and sharper image where the details are more visible, especially with the reflections that were totally invisible before.
 
 ## References
 
