@@ -35,7 +35,7 @@ def retrieve_pixels(img_path: str) -> np.ndarray:
     return np.array(img).astype(np.uint8)
 
 
-def display_imgs(img_list: list, labels):
+def display_imgs(img_list: list, labels: list):
     """
     Display a list of images along with their labels in the same plot.
     """
