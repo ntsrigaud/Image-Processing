@@ -83,7 +83,7 @@ As we can see here, in the dark image the gray levels are clustered at the lower
 
 ## Histogram Stretching
 
-Histogram stretching allow us to stretch out the gray levels to enhance the image contrast to obtain a more uniform display.
+Histogram stretching allows us to stretch out the gray levels to enhance the image contrast to obtain a more uniform display.
 
 ```python
 def plot_histogram(counts: np.ndarray, title: str = "Image Histogram"):
