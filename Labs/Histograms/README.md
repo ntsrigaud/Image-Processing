@@ -49,7 +49,7 @@ def display_imgs(img_list: list, labels):
     plt.tight_layout()
     plt.show()
 
-def display_histograms(img_list, labels):
+def display_histograms(img_list: list, labels: list):
     """
     Display grayscale histograms for a list of image pixel arrays.
     """
