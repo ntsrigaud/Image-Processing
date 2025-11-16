@@ -79,7 +79,7 @@ display_histograms(imgs, labels)
 
 ![png](Histograms_files/Histograms_8_1.png)
 
-As we can see here, in the dark image the gray levels are clustered at the lower end. But in the case of a brighter image, the gray level are clustered ath the upper end.
+As we can see here, in the dark image the gray levels are clustered at the lower end. But in the case of a brighter image, the gray level are clustered at the upper end.
 
 ## Histogram Stretching
 
