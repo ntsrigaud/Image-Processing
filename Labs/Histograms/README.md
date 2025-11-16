@@ -1,6 +1,6 @@
 # Histograms
 
-Given a grayscale image, its **histograms** consists of its gray levels; that is, it is a graph indicating the number of times each gray level occurs in the image.
+Given a grayscale image, its **histogram** consists of its gray levels; that is, it is a graph indicating the number of times each gray level occurs in the image.
 
 ### Library Imports
 
