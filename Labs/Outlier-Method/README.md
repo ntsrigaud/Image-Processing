@@ -57,13 +57,15 @@ def add_salt_and_pepper(img_gray: np.ndarray, amount: float = 0.01, salt_vs_pepp
     if img_gray.ndim != 2:
         raise ValueError("img_gray must be 2D grayscale")
 
-    if copy:
+    # determine scale (0-1 floats -> convert to 0-255 space for simplicity)
+    is_float = np.issubdtype(img_gray.dtype, np.floating)
+    
+    # Always work on a copy when type conversion is needed
+    if is_float or copy:
         out = img_gray.copy()
     else:
         out = img_gray
-
-    # determine scale (0-1 floats -> convert to 0-255 space for simplicity)
-    is_float = np.issubdtype(out.dtype, np.floating)
+    
     if is_float:
         # normalize floats to 0..255 temporarily
         out = (out * 255).astype(np.uint8)
