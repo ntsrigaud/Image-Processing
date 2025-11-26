@@ -3,7 +3,6 @@
 In image restoration, applying the median filter to remove noise degradations can be a slow operation since each pixel requires the sorting of at least nine values when using a 3x3 mask filter.
 
 There comes the **Outlier Method** which essentially:
-
 - Choose a threshold value $D$
 - For a given pixel, compare its value $p$ with the mean $m$ of the values of its eight neighbors.
 - If $| p - m | > D$, then classify the pixel as noisy, otherwise not.
@@ -12,6 +11,7 @@ There comes the **Outlier Method** which essentially:
 ## Method Implementation
 
 ### Library Imports
+
 
 ```python
 import numpy as np
@@ -23,16 +23,18 @@ from IPython.display import display
 
 ### Constants
 
+
 ```python
 IMG_PATH = "data/clay-banks-fZHP8uq6WhQ-unsplash.jpg"
 NOISE_PERCENTAGE = 0.4
 SALT_VS_PEPPER_PERCENTAGE = 0.5
-MIN_THRESHOLD = 60
-MAX_THRESHOLD = 140
+MIN_THRESHOLD = 80
+MAX_THRESHOLD = 130
 THRESHOLD_STEP = 10
 ```
 
 ### Image Preprocessing
+
 
 ```python
 img = Image.open(IMG_PATH).convert('L')
@@ -40,9 +42,14 @@ img_gray = np.array(img).astype(np.uint8)
 display(img)
 ```
 
+
+    
 ![png](Outlier-Method_files/Outlier-Method_7_0.png)
+    
+
 
 #### Adding Noise
+
 
 ```python
 def add_salt_and_pepper(img_gray: np.ndarray, amount: float = 0.01, salt_vs_pepper: float = 0.5, copy: bool = False) -> np.ndarray:
@@ -57,13 +64,15 @@ def add_salt_and_pepper(img_gray: np.ndarray, amount: float = 0.01, salt_vs_pepp
     if img_gray.ndim != 2:
         raise ValueError("img_gray must be 2D grayscale")
 
-    if copy:
+    # determine scale (0-1 floats -> convert to 0-255 space for simplicity)
+    is_float = np.issubdtype(img_gray.dtype, np.floating)
+
+    # Always work on a copy when type conversion is needed
+    if is_float or copy:
         out = img_gray.copy()
     else:
         out = img_gray
-
-    # determine scale (0-1 floats -> convert to 0-255 space for simplicity)
-    is_float = np.issubdtype(out.dtype, np.floating)
+    
     if is_float:
         # normalize floats to 0..255 temporarily
         out = (out * 255).astype(np.uint8)
@@ -88,43 +97,71 @@ def add_salt_and_pepper(img_gray: np.ndarray, amount: float = 0.01, salt_vs_pepp
 
 ```
 
+
 ```python
 noisy = add_salt_and_pepper(img_gray, amount=0.40, salt_vs_pepper=SALT_VS_PEPPER_PERCENTAGE, copy=True)
 display(Image.fromarray(noisy))
 ```
 
+
+    
 ![png](Outlier-Method_files/Outlier-Method_10_0.png)
+    
+
 
 ### Outlier Filter
 
+
 ```python
-def outlier_filter(img_gray: np.ndarray, threshold: int) -> np.ndarray:
-    """Apply the outlier filter method to an array of grayscale image.
+def outlier_filter(arr: np.ndarray, threshold: int) -> np.ndarray:
+    """Outlier filter
 
-    - img_gray: 2D numpy array (H,W), dtype uint8 or float (0..1 or 0..255)
-    - threshold: threshold value to update the pixels depending on the neighbors mean value.
+    This implementation uses vectorized NumPy operations for better performance and sum of all 8 positions in each 3x3 window using slicing by shifting up the view relative to the center pixel.
 
-    Border pixels are handled by mirroring (reflect mode) so that all pixels are processed.
+    Each slice represents one the following positions:
+
+    padded[:-2, :-2]   -> a (top-left)
+    padded[:-2, 1:-1]  -> b (top)
+    padded[:-2, 2:]    -> c (top-right)
+    padded[1:-1, :-2]  -> d (left)
+    padded[1:-1, 1:-1] -> e (center)
+    padded[1:-1, 2:]   -> f (right)
+    padded[2:, :-2]    -> g (bottom-left)
+    padded[2:, 1:-1]   -> h (bottom)
+    padded[2:, 2:]     -> i (bottom-right)
+
+    By cleverly shifting the slices, all nice arrays line up in such way that neighbor_sum[x, y] becomes:
+
+    a[x, y] + b[x, y] + c[x, y] +
+    d[x, y] + e[x, y] + f[x, y] +
+    g[x, y] + h[x, y] + i[x, y]
+
+    NOTE: This procedure requires the array to be padded beforehand if implemented out of this function.
     """
 
-    row, col = img_gray.shape
-    # Pad the image with 1 pixel on each side using reflect mode
-    padded = np.pad(img_gray, pad_width=1, mode='reflect')
-    out = img_gray.copy()
+    padded = np.pad(arr, pad_width=1, mode="reflect").astype(np.int32)
+    out = arr.copy().astype(np.float32)
+    img_float = arr.astype(np.float32)
 
-    for i in range(row):
-        for j in range(col):
-            # The 3x3 window centered at (i+1, j+1) in the padded image
-            p = padded[i + 1, j + 1]
-            s = padded[i:i+3, j:j+3].sum() - p
-            mean = s / 8
+    neighbor_sum = (
+        padded[:-2, :-2]
+        + padded[:-2, 1:-1]
+        + padded[:-2, 2:]
+        + padded[1:-1, :-2]
+        + padded[1:-1, 2:]
+        + padded[2:, :-2]
+        + padded[2:, 1:-1]
+        + padded[2:, 2:]
+    )
 
-            if abs(p - mean) > threshold:
-                out[i, j] = mean
+    neighbor_mean = neighbor_sum / 8.0
+    mask = np.abs(img_float - neighbor_mean) > threshold
+    out[mask] = neighbor_mean[mask]
 
-    return out
-
+    return out.astype(arr.dtype)
+    
 ```
+
 
 ```python
 # Compute results for different thresholds
@@ -133,17 +170,16 @@ labels = ["Original with noise"]
 for threshold in range(MIN_THRESHOLD, MAX_THRESHOLD, THRESHOLD_STEP):
     print(f"Applying outlier method for D = {threshold}")
     img_list.append(Image.fromarray(outlier_filter(noisy, threshold)))
-    labels.append(f"Outlied with D={threshold}")
+    labels.append(f"Outlier with D={threshold}")
 ```
 
-    Applying outlier method for D = 60
-    Applying outlier method for D = 70
     Applying outlier method for D = 80
     Applying outlier method for D = 90
     Applying outlier method for D = 100
     Applying outlier method for D = 110
     Applying outlier method for D = 120
-    Applying outlier method for D = 130
+
+
 
 ```python
 def show_images(img_list, labels):
@@ -173,7 +209,11 @@ def show_images(img_list, labels):
 show_images(img_list, labels)
 ```
 
+
+    
 ![png](Outlier-Method_files/Outlier-Method_14_0.png)
+    
+
 
 #### Comments
 
@@ -184,12 +224,18 @@ On the other hand, when $D$ is too large, no noisy pixels will be classified as 
 
 ### Outlier Method with Small Amount of Noise
 
+
 ```python
 noisy = add_salt_and_pepper(img_gray, amount=0.10, salt_vs_pepper=SALT_VS_PEPPER_PERCENTAGE, copy=True)
 display(Image.fromarray(noisy))
 ```
 
+
+    
 ![png](Outlier-Method_files/Outlier-Method_17_0.png)
+    
+
+
 
 ```python
 # Compute results for different thresholds
@@ -201,20 +247,23 @@ for threshold in range(MIN_THRESHOLD, MAX_THRESHOLD, THRESHOLD_STEP):
     labels.append(f"Outlier with D={threshold}")
 ```
 
-    Applying outlier method for D = 60
-    Applying outlier method for D = 70
     Applying outlier method for D = 80
     Applying outlier method for D = 90
     Applying outlier method for D = 100
     Applying outlier method for D = 110
     Applying outlier method for D = 120
-    Applying outlier method for D = 130
+
+
 
 ```python
 show_images(img_list, labels)
 ```
 
+
+    
 ![png](Outlier-Method_files/Outlier-Method_19_0.png)
+    
+
 
 We get better outputs for 10% of noise with the same balance of salt and pepper with the best threshold around 100.
 
