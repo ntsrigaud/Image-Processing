@@ -234,7 +234,7 @@ $$
 Since the image has a dimension far greater than the Q table, the division operation is performed in the following steps:
 
 1. Reshape the image to break it into 8x8 blocks
-2. Reorder the dimentsion to group the blocks together for broadcasting
+2. Reorder the dimension to group the blocks together for broadcasting
 3. Perform element-wise division by Q matrix and round to the nearest integer
 4. Reshape back to the original image layout
 5. Collapse into the original image
