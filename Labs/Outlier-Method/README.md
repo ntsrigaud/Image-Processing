@@ -198,7 +198,7 @@ labels = ["Original with noise"]
 for threshold in range(MIN_THRESHOLD, MAX_THRESHOLD, THRESHOLD_STEP):
     print(f"Applying outlier method for D = {threshold}")
     img_list.append(Image.fromarray(outlier_filter(noisy, threshold)))
-    labels.append(f"Outlied with D={threshold}")
+    labels.append(f"Outlier with D={threshold}")
 ```
 
     Applying outlier method for D = 60
