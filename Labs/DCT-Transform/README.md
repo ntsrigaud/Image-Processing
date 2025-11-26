@@ -370,7 +370,7 @@ $$
 D = CBC^{T}
 $$
 
-Because the $C$ matrix is **orthogonal**, its inverse to its transpose is as follows: $C^{-1} = C^{T}$.
+Because the $C$ matrix is **orthogonal**, its inverse is equal to its transpose: $C^{-1} = C^{T}$.
 
 Thus, the inverse DCT (IDCT) is:
 
