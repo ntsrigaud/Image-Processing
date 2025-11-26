@@ -362,7 +362,7 @@ display(Image.fromarray(norm_display_dct(deq_img)))
 
 Here, we apply the Inverse Discrete Cosine Transform operation to the previously obtained dequantized image.
 
-Since we have already implemented the normalized DCT basis function, the **inverse DCT (IDCT)** is achieved simply by swappling the roles of the basis matrix $C$ and its transpose $C^{T}$ in the transform equation.
+Since we have already implemented the normalized DCT basis function, the **inverse DCT (IDCT)** is achieved simply by swapping the roles of the basis matrix $C$ and its transpose $C^{T}$ in the transform equation.
 
 Previously, we had the forward DCT defined as:
 
