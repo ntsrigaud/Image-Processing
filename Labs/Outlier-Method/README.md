@@ -5,7 +5,7 @@ In image restoration, applying the median filter to remove noise degradations ca
 There comes the **Outlier Method** which essentially:
 
 - Choose a threshold value $D$
-- For a givent pixel, compare its value $p$ with the mean $m$ of the values of its eight neighbors.
+- For a given pixel, compare its value $p$ with the mean $m$ of the values of its eight neighbors.
 - If $| p - m | > D$, then classify the pixel as noisy, otherwise not.
 - If the pixel is noise, replace its value with $m$; otherwise leave its value unchanged.
 
