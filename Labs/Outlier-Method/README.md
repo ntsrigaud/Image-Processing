@@ -105,23 +105,37 @@ def outlier_filter(img_gray: np.ndarray, threshold: int) -> np.ndarray:
     - threshold: threshold value to update the pixels depending on the neighbors mean value.
 
     Border pixels are handled by mirroring (reflect mode) so that all pixels are processed.
+    
+    This implementation uses vectorized NumPy operations for better performance.
     """
-
-    row, col = img_gray.shape
     # Pad the image with 1 pixel on each side using reflect mode
     padded = np.pad(img_gray, pad_width=1, mode='reflect')
+    
+    # Convert to float to avoid overflow during summation
+    padded = padded.astype(np.float64)
+    img_float = img_gray.astype(np.float64)
+    
+    # Extract all 3x3 windows using array slicing (vectorized)
+    # Sum all 9 positions in the 3x3 window
+    neighbor_sum = (
+        padded[:-2, :-2] + padded[:-2, 1:-1] + padded[:-2, 2:] +
+        padded[1:-1, :-2] + padded[1:-1, 1:-1] + padded[1:-1, 2:] +
+        padded[2:, :-2] + padded[2:, 1:-1] + padded[2:, 2:]
+    )
+    
+    # Subtract the center pixel value to get sum of 8 neighbors
+    neighbor_sum = neighbor_sum - img_float
+    
+    # Compute mean of 8 neighbors
+    neighbor_mean = neighbor_sum / 8.0
+    
+    # Find pixels where difference exceeds threshold (vectorized comparison)
+    mask = np.abs(img_float - neighbor_mean) > threshold
+    
+    # Create output array and apply filter only where mask is True
     out = img_gray.copy()
-
-    for i in range(row):
-        for j in range(col):
-            # The 3x3 window centered at (i+1, j+1) in the padded image
-            p = padded[i + 1, j + 1]
-            s = padded[i:i+3, j:j+3].sum() - p
-            mean = s / 8
-
-            if abs(p - mean) > threshold:
-                out[i, j] = mean
-
+    out[mask] = neighbor_mean[mask]
+    
     return out
 
 ```
