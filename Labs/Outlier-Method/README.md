@@ -1,6 +1,6 @@
 # Image Restoration - Outlier Method
 
-In image restoration, applying the median filter to remove noise degradations can be a slow operation since each pixel requres the sorting of at least nine values when using a 3x3 mask filter.
+In image restoration, applying the median filter to remove noise degradations can be a slow operation since each pixel requires the sorting of at least nine values when using a 3x3 mask filter.
 
 There comes the **Outlier Method** which essentially:
 
