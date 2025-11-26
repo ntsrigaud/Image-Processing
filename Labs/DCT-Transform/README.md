@@ -380,7 +380,7 @@ $$
 
 We implement the IDCT function by making two changes to the previous `dct2_blockwise()` function:
 
-1. Change input name to `dct_coefficients` ot reflect the that the input is the frequency domain data.
+1. Change input name to `dct_coefficients` to reflect that the input is the frequency domain data.
 2. Reverse the matrix multiplication order inside the loop: `C.T @ D @ C` instead of `C @ B @ C.T`.
 
 
