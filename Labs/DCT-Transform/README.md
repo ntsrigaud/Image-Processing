@@ -52,7 +52,7 @@ Q_TABLE = np.array(
 
 ### Load and Open Image
 
-We use the `Image` module form `PIL` to open the image and also convert to grayscale if not already done. Then we store the image pixel values as a numpy array. Finally display the image in the notebook.
+We use the `Image` module from `PIL` to open the image and also convert to grayscale if not already done. Then we store the image pixel values as a numpy array. Finally display the image in the notebook.
 
 
 ```python
