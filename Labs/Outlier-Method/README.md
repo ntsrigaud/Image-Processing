@@ -14,10 +14,8 @@ There comes the **Outlier Method** which essentially:
 ### Library Imports
 
 ```python
-import os
 import numpy as np
 import matplotlib.pyplot as plt
-import random
 import math
 from PIL import Image
 from IPython.display import display
