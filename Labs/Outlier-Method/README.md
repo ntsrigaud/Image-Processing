@@ -103,19 +103,24 @@ def outlier_filter(img_gray: np.ndarray, threshold: int) -> np.ndarray:
 
     - img_gray: 2D numpy array (H,W), dtype uint8 or float (0..1 or 0..255)
     - threshold: threshold value to update the pixels depending on the neighbors mean value.
+
+    Border pixels are handled by mirroring (reflect mode) so that all pixels are processed.
     """
 
     row, col = img_gray.shape
+    # Pad the image with 1 pixel on each side using reflect mode
+    padded = np.pad(img_gray, pad_width=1, mode='reflect')
     out = img_gray.copy()
 
-    for i in range(row - 2):
-        for j in range(col - 2):
-            p = img_gray[i + 1, j + 1]
-            s = img_gray[i:i+3, j:j+3].sum() - p
+    for i in range(row):
+        for j in range(col):
+            # The 3x3 window centered at (i+1, j+1) in the padded image
+            p = padded[i + 1, j + 1]
+            s = padded[i:i+3, j:j+3].sum() - p
             mean = s / 8
 
             if abs(p - mean) > threshold:
-                out[i + 1][j + 1] = mean
+                out[i, j] = mean
 
     return out
 
