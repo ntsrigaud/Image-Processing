@@ -11,8 +11,7 @@ The Discrete Cosine Transform (DCT) helps separate the image into parts (or spec
 
 We use the provided Lena gray (512 x 512) sample image as data.
 
-
-1. Take the DCT Transform (Block size: 8 * 8)
+1. Take the DCT Transform (Block size: 8 \* 8)
 2. Apply Quantization and Dequantization
 3. Take the IDCT
 4. Calculate the PSNR of $\hat{f}(x, y)$
@@ -21,7 +20,6 @@ We use the provided Lena gray (512 x 512) sample image as data.
 ## Environment Setup
 
 ### Library Imports
-
 
 ```python
 import numpy as np
@@ -32,7 +30,6 @@ from IPython.display import display
 ```
 
 ### Constant Values
-
 
 ```python
 IMG_PATH = "data/lena_gray.png"
@@ -54,22 +51,17 @@ Q_TABLE = np.array(
 
 We use the `Image` module from `PIL` to open the image and also convert to grayscale if not already done. Then we store the image pixel values as a numpy array. Finally display the image in the notebook.
 
-
 ```python
 img = Image.open(IMG_PATH).convert("L")
 img_arr = np.array(img).astype(np.float64)
 display(img)
 ```
 
-
-    
-![png](DCT_files/DCT_7_0.png)
-    
-
+![png](README_files/README_7_0.png)
 
 ## Implementation
 
-### Step 1: Take a DCT Tranform (Block 8*8)
+### Step 1: Take a DCT Tranform (Block 8\*8)
 
 We use the general equation for a 2D image ($N \times M$ image) DCT defined as:
 
@@ -99,7 +91,6 @@ In order to apply the DCT transform, we:
 - Pad the image to a multiple of the block size to prevent any error if the image dimension are not correct.
 - Apply DCT to every block using matrix multiplications (`C @ block @ C.T`) which is a standard separable trick.
 - Then we return a `float64` array containing the DCT coefficients where the padding has been removed.
-
 
 ```python
 def _dct_basis(n):
@@ -171,7 +162,6 @@ def dct2_blockwise(img: np.ndarray, block_size: int = 8) -> np.ndarray:
     return dct
 ```
 
-
 ```python
 dct_img = dct2_blockwise(img_arr)
 
@@ -186,30 +176,10 @@ def norm_display_dct(dct_img: np.ndarray) -> np.ndarray:
     return dct_disp.astype(np.uint8)
 
 
-print(dct_img)
 display(Image.fromarray(norm_display_dct(dct_img)))
 ```
 
-    [[ 1.28112500e+03  6.36332654e+00  2.50303196e+00 ... -2.91205575e+00
-      -1.09559215e+01 -1.31880329e-01]
-     [ 8.39230335e+00 -1.63499315e-02  4.75181453e-01 ... -6.11840383e+00
-      -5.10159851e+00 -4.95160332e+00]
-     [-5.29390137e+00 -9.60810158e-01 -1.39016504e+00 ...  2.70857101e+00
-       1.21966991e+00  3.35892878e+00]
-     ...
-     [ 3.35142577e+00  7.46326621e-01  2.39866475e+00 ...  1.21149667e+00
-      -7.79999080e-01 -1.91625442e+00]
-     [-4.89961112e-01 -1.80665354e+00 -1.13128157e+00 ... -4.16270636e+00
-       2.39492245e+00  1.74101131e+00]
-     [ 2.35919764e+00 -1.34370502e+00 -2.30080975e+00 ... -5.74159072e+00
-       7.38719504e-01  1.55666515e+00]]
-
-
-
-    
-![png](DCT_files/DCT_11_1.png)
-    
-
+![png](README_files/README_11_0.png)
 
 ### Step 2: Quantization and Dequantization
 
@@ -238,7 +208,6 @@ Since the image has a dimension far greater than the Q table, the division opera
 3. Perform element-wise division by Q matrix and round to the nearest integer
 4. Reshape back to the original image layout
 5. Collapse into the original image
-
 
 ```python
 def quantize_image(dct_image, q_matrix=Q_TABLE):
@@ -282,38 +251,23 @@ def quantize_image(dct_image, q_matrix=Q_TABLE):
     return quantized_image
 ```
 
-
 ```python
 # Divide the DCT result
 q_img = quantize_image(dct_img, Q_TABLE)
-print(q_img)
 display(Image.fromarray(norm_display_dct(q_img)))
 ```
 
-    [[80.  1.  0. ... -0. -0. -0.]
-     [ 1. -0.  0. ... -0. -0. -0.]
-     [-0. -0. -0. ...  0.  0.  0.]
-     ...
-     [ 0.  0.  0. ...  0. -0. -0.]
-     [-0. -0. -0. ... -0.  0.  0.]
-     [ 0. -0. -0. ... -0.  0.  0.]]
+![png](README_files/README_15_0.png)
 
-
-
-    
-![png](DCT_files/DCT_15_1.png)
-    
-
-
-#### Dequantization 
+#### Dequantization
 
 The dequantization of the image is performed by multiplying the previously obtained **quantized image** back with the same Q table.
 
 We proceed to:
+
 1. Reshape and transpose as done previously in the `quantize_image()` function
 2. Perform element-wise **multiplication** by `Q_TABLE` matrix with no rounding this time.
 3. Reshape the image back to original layout as done in the previous `quantize_image()` function.
-
 
 ```python
 def dequantize_image(quantized_image, q_matrix=Q_TABLE):
@@ -336,27 +290,12 @@ def dequantize_image(quantized_image, q_matrix=Q_TABLE):
     return dequantized_image
 ```
 
-
 ```python
 deq_img = dequantize_image(q_img)
-print(deq_img)
 display(Image.fromarray(norm_display_dct(deq_img)))
 ```
 
-    [[1280.   11.    0. ...   -0.   -0.   -0.]
-     [  12.   -0.    0. ...   -0.   -0.   -0.]
-     [  -0.   -0.   -0. ...    0.    0.    0.]
-     ...
-     [   0.    0.    0. ...    0.   -0.   -0.]
-     [  -0.   -0.   -0. ...   -0.    0.    0.]
-     [   0.   -0.   -0. ...   -0.    0.    0.]]
-
-
-
-    
-![png](DCT_files/DCT_18_1.png)
-    
-
+![png](README_files/README_18_0.png)
 
 ### Step 3: Take the IDCT
 
@@ -382,7 +321,6 @@ We implement the IDCT function by making two changes to the previous `dct2_block
 
 1. Change input name to `dct_coefficients` to reflect that the input is the frequency domain data.
 2. Reverse the matrix multiplication order inside the loop: `C.T @ D @ C` instead of `C @ B @ C.T`.
-
 
 ```python
 # --- IDCT Implementation ---
@@ -445,27 +383,12 @@ def idct2_blockwise(dct_coefficients: np.ndarray, block_size: int = 8) -> np.nda
     return clipped_image
 ```
 
-
 ```python
 idct_img = idct2_blockwise(deq_img)
-print(idct_img.astype(np.uint8))
 display(Image.fromarray(norm_display_dct(idct_img)))
 ```
 
-    [[163 163 163 ... 177 157 128]
-     [163 163 162 ... 170 151 123]
-     [163 162 162 ... 169 152 127]
-     ...
-     [ 45  46  48 ...  99  97  96]
-     [ 44  45  47 ... 101 101 101]
-     [ 44  45  47 ... 103 105 106]]
-
-
-
-    
-![png](DCT_files/DCT_21_1.png)
-    
-
+![png](README_files/README_21_0.png)
 
 Without the quantization step, the image would be perfectly reconstructed.
 
@@ -478,9 +401,10 @@ The PSNR is defined mathematically using the **Mean Squared Error (MSE)** for an
 $$\text{MSE} = \frac{1}{M \cdot N} \sum_{i=1}^{M} \sum_{j=1}^{N} [\mathbf{I}_{\text{orig}}(i, j) - \mathbf{I}_{\text{rec}}(i, j)]^2$$
 
 Where:
-* $\mathbf{I}_{\text{orig}}$ is the **Original Image**.
-* $\mathbf{I}_{\text{rec}}$ is the **Reconstructed Image**.
-* $M$ and $N$ are the **height and width** of the images, respectively.
+
+- $\mathbf{I}_{\text{orig}}$ is the **Original Image**.
+- $\mathbf{I}_{\text{rec}}$ is the **Reconstructed Image**.
+- $M$ and $N$ are the **height and width** of the images, respectively.
 
 Thus, to calculate the PSNR, we proceed to:
 
@@ -488,7 +412,6 @@ Thus, to calculate the PSNR, we proceed to:
 2. Determine the maximum possible pixel value ($MAX$)
    - For a typical 8-bit grayscale image, this value is 255.
 3. Compute the **PSNR** using the formula: $PSNR = 10 \times log_{10}\left(\frac{MAX^2}{MSE} \right)$
-
 
 ```python
 def calculate_mse(original_image: np.ndarray, reconstructed_image: np.ndarray) -> float:
@@ -527,7 +450,6 @@ def calculate_psnr(
     return psnr
 ```
 
-
 ```python
 psnr_value = calculate_psnr(img_arr, idct_img)
 print(f"PSNR: {psnr_value:.2f} dB")
@@ -535,13 +457,11 @@ print(f"PSNR: {psnr_value:.2f} dB")
 
     PSNR: 35.83 dB
 
-
 We obtained a **PSNR value of 35.83 dB** which indicates a better quality reconstruction along with less noise or distortion introduced by the compression (quantization) process since PSNR values ranging between 30 dB and 50 dB are considered good-quality image compression.
 
 ### Step 5: Compute and Display Error Image
 
 We proceed to compute and display the absolute difference (error) image and display it.
-
 
 ```python
 def compute_and_display_error_image(
@@ -577,38 +497,13 @@ def compute_and_display_error_image(
     return error_image
 ```
 
-
 ```python
-compute_and_display_error_image(img_arr, idct_img)
+error_array = compute_and_display_error_image(img_arr, idct_img)
 ```
 
     Maximum absolute error found: 40.92
 
-
-
-    
-![png](DCT_files/DCT_29_1.png)
-    
-
-
-
-
-
-    array([[1.98773956, 1.69738872, 1.16089034, ..., 8.03701404, 3.98528662,
-            0.21227612],
-           [1.67099319, 1.38064236, 0.84414397, ..., 1.36694014, 2.27060343,
-            4.08063272],
-           [1.08572222, 0.79537139, 0.25887301, ..., 0.82367597, 1.7447771 ,
-            0.30095671],
-           ...,
-           [3.28107407, 4.52813348, 0.58237788, ..., 4.6616191 , 2.23987106,
-            1.73734238],
-           [1.6958031 , 2.94286252, 6.16764885, ..., 1.60567464, 3.29750365,
-            5.38529733],
-           [1.37905674, 2.62611615, 6.48439521, ..., 0.48660495, 0.20445358,
-            0.84553823]], shape=(512, 512))
-
-
+![png](README_files/README_29_1.png)
 
 In this error image, the darker areas represent minimal error (0 -> black), and the brighter areas indicate where the quantization process caused the largest changes. We noticed that the largest errors occured around the sharp edges in the original image with a **maximum value of 40.92**.
 
