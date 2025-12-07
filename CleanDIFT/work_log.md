@@ -2,7 +2,7 @@
 
 ## Log Information
 
-- **Date:** 2025-12-06
+- **Date:** 2025-12-07
 - **Developer:** Neil Taison Rigaud
 - **Topic:** CleanDIFT: Diffusion Features without Noise
 
@@ -16,87 +16,144 @@ The objective of this session is to use a Jupyter notebook to implement the new 
 
 ## Tasks Checklist
 
-- [ ] Conda environment setup for method implementation and experiment
-  - [ ] Add conda `environment.yml` file for easy setup
-  - [ ] Create environment and install libraries and dependencies
-- [ ] Implement CleanDIFT feature extraction model
-  - Use architecture details from the [source code](https://github.com/CompVis/cleandift/tree/main/src), architecture details notes from the README.md
-- [ ] Implement feature extraction setup aligning with their orignal training objective
-- [ ] Experimental setup according to the implementation details recorded in the README and original source codes
-  - [ ] Stable Diffusion backbone SD 1.5 and SD 2.1 for different comparative experiments with previous approaches
-  - [ ] Set up the necessary projection heads
-  - [ ] Set up similar training parameters such as Adam with batch size 8 and learning rate $2^-6$ with linear warmup
-  - [ ] Use stratified sample of 3, i.e tree different noise levels per training images
-  - [ ] Fine-tuning on a random subset of [COYO-700M](https://huggingface.co/datasets/kakaobrain/coyo-700m)
-    - [ ] Selection of images with minimum size of 512x512
-    - [ ] Crop and resize the images to match corresponding input resolution of the underlying diffusion model
-- [ ] Conduct all the main experiments from the paper
-  - [ ] Unsupervised Semantic Correspondence
-    - [ ] Performance measurement using Percentage of Correct Keypoints (PCK)
-      - Average of PCK directly across all keypoints, not over images.
-      - Use $\alpha = 0.1$
-    - [ ] Performance evaluation on test split of [SPair-71K](https://arxiv.org/abs/1908.10543)
-      - [ ] Obtain the same dataset configuration used in the paper for result accuracy
-      - [ ] Use 12k image pairs from 18 categories
-    - [ ] Compare with standard [DIFT](https://diffusionfeatures.github.io/) approach
-      - [ ] Perform time-step dependent performance analysis
-    - [ ] Compare with **A Tale of Two Features** approach
-      - [ ] Check if this implementation of an extension of DIFT by combining diffusion features with DINOv2 features is available for direct usage
-        - If yes, use it, otherwise implement it before proceeding to perform comparison with CleanDIFT
-      - [ ] Replace the standard diffusion features with CleanDIFT features for comparison
-    - [ ] Compare with **Telling Left from Right** approach
-      - [ ] Check if this implementation is available for direct usage
-        - If yes, use it, otherwise implement it before proceeding to perform comparison with CleanDIFT
-      - [ ] Replace the standard diffusion features with CleanDIFT features for comparison
-    - [ ] Compare the performance in supervised fine-tuning setting for semantic correspondence matching
-      - [ ] Compare new approach with [Diffusion Hyperfeatures: Searching Through Time and Space for Semantic Correspondence](https://arxiv.org/abs/2305.14334)
-      - [ ] Verify that feature extraction is actually 50x faster with single denoiser forward pass using CleanDIFT
-      - [ ] Verify that there is a slight performance regression of CleanDIFT using PCK metrics
-      - [ ] Compare performance in single-step ablation of the comparative full method requiring single forward pass
-    - [ ] Provide appropriate graphs for the comparison with diffusion feature-based approach on this task
-  - [ ] Depth estimation
-  - [ ] Semantic Segmentation
-  - [ ] Classification
-  - [ ] Ablation Studies
-- [ ] Provide experiment takeaways
+- [ ] State the problem solved by this new approach and its importance
+- [ ] Research the CleanDIFT method
+    - [ ] What is it? Fine-tuning or full diffusion model architecture ?
+    - [ ] What are the projection heads ? How are they used in CleanDIFT ?
+    - [ ] How is CleanDIFT used with different timesteps with a standard diffusion backbone for different downstream tasks ?
+    - [ ] How do we use frozen weights to fine-tune the feature extraction model for a specific downstream task ?
+    - [ ] What are the key components in this new architecture and what are their roles ?
+- [ ] Implement the CleanDIFT architecture for demonstration purpose
+- [ ] Choose a suitable standard diffusion backbone for most of the experimental tasks or allow the use of SD 1.5 and SD 2.1 use in the original paper
+- [ ] Using the source code from the official repository as reference, implement the core components linked to the chosen backbone along with the projection heads
+- [ ] Use frozen weights for for the standard diffusion backbone(s).
+    - No need to use for CleanDIFT since the fine-tuning operation takes only around 30 minutes.
+- [ ] Complete the experimental setup
+    - [ ] Feature extraction model fine-tuning on a random subset of the [COYO-700M dataset on Hugging Face](https://huggingface.co/datasets/kakaobrain/coyo-700m) 
+        - [ ] Selection of images with minimum size of 512 x 512
+        - [ ] Crop and resize the image to match the corresponding input resolution of the underlying diffusion model
+    - [ ] Feature extraction after U-Nets middle blocks and after U-Nets decoder blocks, except two final blocks.
+        - Total of 11 feature maps
+    - [ ] Point-wise feature projection heads
+        - [ ] Three stacked FFNs
+        - [ ] Zero-initialized to act as identity mappings due to their residual connections
+    - [ ] Ensure that every feature map has its own projection head
+    - [ ] Configure training parameters:
+        - [ ] Adam with batch size of 8
+        - [ ] Learning rate of $2e^-6$
+        - [ ] **Linear warmup**
+    - [ ] Stratified sampling of 3
+        - Three different noise levels per training images
+- [ ] Perform task-specific experiments:
+    - [ ] Unsupervised semantic correspondence
+        - [ ] Performance measurement in PCK
+        - [ ] Use $\alpha = 0.1$ as threshold
+        - [ ] Report both $PCK_{img}$ and $PCK_{bbox}$
+        - [ ] Performance evaluation on **test split [SPair-71k on Hugging Face](https://huggingface.co/datasets/0jl/SPair-71k) **
+            - [ ] 12k image pairs from 18 categories
+        - [ ] Comparison to diffusion feature-based approach
+            - [ ] [Diffusion Features](https://diffusionfeatures.github.io/)
+            - [ ] [A Tale of Two Features](https://github.com/Junyi42/sd-dino)
+            - [ ] [Telling Left from Right](https://telling-left-from-right.github.io/)
+    - [ ] Performance in a supervised fine-tuning setting for semantic correspondence matching:
+        - [ ] [Diffusion Hyperfeatures](https://github.com/diffusion-hyperfeatures/diffusion_hyperfeatures)
 
 ---
 
 ## Work Log
 
-### [16:00] - Session Start
+### [09:00] - Session Start
+
+**Objective:** Implement CleanDIFT demonstration notebook for Image Processing course presentation.
 
 **Observations/Discoveries:**
 
-- **Issues encountered:**
+**Solutions applied:**
 
-- **Solutions applied:**
+**Next Steps:**
 
 ## Technical Notes
 
 ### Dependencies
 
-List any new dependencies added or version changes.
+**Core Requirements:**
+
+**Additional Libraries:**
 
 ### Configuration Changes
 
-Note any configuration file changes or environment variable updates.
+**Model Architecture:**
+
+**Inference Settings:**
 
 ### Performance Considerations
-
-Document any performance impacts or optimizations made.
 
 ---
 
 ## References
 
-- Documentation: [link]
-- External resources: [link]
+### Primary Sources
+
+- **Paper**: [CleanDIFT: Diffusion Features without Noise](https://arxiv.org/abs/2412.03439)
+- **Project Page**: https://compvis.github.io/cleandift/
+- **Code Repository**: https://github.com/CompVis/cleandift
+- **Pretrained Weights**: https://huggingface.co/CompVis/cleandift
+
+### Related Work
+
+- **DIFT**: [Diffusion Features](https://diffusionfeatures.github.io/)
+- **Stable Diffusion**: [High-Resolution Image Synthesis](https://arxiv.org/abs/2112.10752)
+- **TLFR**: [Telling Left from Right](https://telling-left-from-right.github.io/)
+- **Diffusion Hyperfeatures**: [Searching Through Time and Space](https://arxiv.org/abs/2305.14334)
+
+### Datasets
+
+- **SPair-71K**: Semantic correspondence benchmark (12k pairs, 18 categories)
+- **COYO-700M**: Training dataset (image-text pairs, 700M images)
+- **NYUv2**: Indoor depth estimation benchmark
+- **KITTI**: Outdoor depth estimation benchmark
 
 ---
 
 ## Lessons Learned
 
-What did you learn during this session? Any insights for future work?
+### Technical Insights
 
--
+### Implementation Insights
+
+### Research Impact
+
+### Presentation Learnings
+
+### Personal Takeaways
+
+- **Adam (Adaptive Moment Estimation)**  is an optimization algorithm used for training deep neural networks.
+    - Gradient descent-based method that adapts learning rate for each parameter individually based on estimations of the first moment and second moments of the gradients.
+
+---
+
+## Future Work
+
+### For This Project
+
+- [ ] Run full notebook on actual GPU to verify execution
+- [ ] Add failure case analysis (when does CleanDIFT struggle?)
+- [ ] Compare with DINOv2 features on same tasks
+- [ ] Create slide deck from notebook content
+- [ ] Prepare 2-minute elevator pitch version
+
+### Extensions
+
+- [ ] Implement semantic segmentation demo
+- [ ] Try CleanDIFT + TLFR combination
+- [ ] Benchmark on SPair-71K subset
+- [ ] Explore different SD backbones (SD 1.5, SDXL)
+- [ ] Test on video frames (temporal consistency)
+
+### Research Directions
+
+- Apply to video correspondence (optical flow)
+- Combine with 3D reconstruction methods
+- Explore few-shot fine-tuning for specialized domains
+- Investigate compression for edge deployment
+- Study feature interpretability and explainability
