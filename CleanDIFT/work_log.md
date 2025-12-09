@@ -18,45 +18,45 @@ The objective of this session is to use a Jupyter notebook to implement the new 
 
 - [ ] State the problem solved by this new approach and its importance
 - [ ] Research the CleanDIFT method
-    - [ ] What is it? Fine-tuning or full diffusion model architecture ?
-    - [ ] What are the projection heads ? How are they used in CleanDIFT ?
-    - [ ] How is CleanDIFT used with different timesteps with a standard diffusion backbone for different downstream tasks ?
-    - [ ] How do we use frozen weights to fine-tune the feature extraction model for a specific downstream task ?
-    - [ ] What are the key components in this new architecture and what are their roles ?
+  - [ ] What is it? Fine-tuning or full diffusion model architecture ?
+  - [ ] What are the projection heads ? How are they used in CleanDIFT ?
+  - [ ] How is CleanDIFT used with different timesteps with a standard diffusion backbone for different downstream tasks ?
+  - [ ] How do we use frozen weights to fine-tune the feature extraction model for a specific downstream task ?
+  - [ ] What are the key components in this new architecture and what are their roles ?
 - [ ] Implement the CleanDIFT architecture for demonstration purpose
 - [ ] Choose a suitable standard diffusion backbone for most of the experimental tasks or allow the use of SD 1.5 and SD 2.1 use in the original paper
 - [ ] Using the source code from the official repository as reference, implement the core components linked to the chosen backbone along with the projection heads
 - [ ] Use frozen weights for for the standard diffusion backbone(s).
-    - No need to use for CleanDIFT since the fine-tuning operation takes only around 30 minutes.
+  - No need to use for CleanDIFT since the fine-tuning operation takes only around 30 minutes.
 - [ ] Complete the experimental setup
-    - [ ] Feature extraction model fine-tuning on a random subset of the [COYO-700M dataset on Hugging Face](https://huggingface.co/datasets/kakaobrain/coyo-700m) 
-        - [ ] Selection of images with minimum size of 512 x 512
-        - [ ] Crop and resize the image to match the corresponding input resolution of the underlying diffusion model
-    - [ ] Feature extraction after U-Nets middle blocks and after U-Nets decoder blocks, except two final blocks.
-        - Total of 11 feature maps
-    - [ ] Point-wise feature projection heads
-        - [ ] Three stacked FFNs
-        - [ ] Zero-initialized to act as identity mappings due to their residual connections
-    - [ ] Ensure that every feature map has its own projection head
-    - [ ] Configure training parameters:
-        - [ ] Adam with batch size of 8
-        - [ ] Learning rate of $2e^-6$
-        - [ ] **Linear warmup**
-    - [ ] Stratified sampling of 3
-        - Three different noise levels per training images
+  - [ ] Feature extraction model fine-tuning on a random subset of the [COYO-700M dataset on Hugging Face](https://huggingface.co/datasets/kakaobrain/coyo-700m)
+    - [ ] Selection of images with minimum size of 512 x 512
+    - [ ] Crop and resize the image to match the corresponding input resolution of the underlying diffusion model
+  - [ ] Feature extraction after U-Nets middle blocks and after U-Nets decoder blocks, except two final blocks.
+    - Total of 11 feature maps
+  - [ ] Point-wise feature projection heads
+    - [ ] Three stacked FFNs
+    - [ ] Zero-initialized to act as identity mappings due to their residual connections
+  - [ ] Ensure that every feature map has its own projection head
+  - [ ] Configure training parameters:
+    - [ ] Adam with batch size of 8
+    - [ ] Learning rate of $2e^-6$
+    - [ ] **Linear warmup**
+  - [ ] Stratified sampling of 3
+    - Three different noise levels per training images
 - [ ] Perform task-specific experiments:
-    - [ ] Unsupervised semantic correspondence
-        - [ ] Performance measurement in PCK
-        - [ ] Use $\alpha = 0.1$ as threshold
-        - [ ] Report both $PCK_{img}$ and $PCK_{bbox}$
-        - [ ] Performance evaluation on **test split [SPair-71k on Hugging Face](https://huggingface.co/datasets/0jl/SPair-71k) **
-            - [ ] 12k image pairs from 18 categories
-        - [ ] Comparison to diffusion feature-based approach
-            - [ ] [Diffusion Features](https://diffusionfeatures.github.io/)
-            - [ ] [A Tale of Two Features](https://github.com/Junyi42/sd-dino)
-            - [ ] [Telling Left from Right](https://telling-left-from-right.github.io/)
-    - [ ] Performance in a supervised fine-tuning setting for semantic correspondence matching:
-        - [ ] [Diffusion Hyperfeatures](https://github.com/diffusion-hyperfeatures/diffusion_hyperfeatures)
+  - [ ] Unsupervised semantic correspondence
+    - [ ] Performance measurement in PCK
+    - [ ] Use $\alpha = 0.1$ as threshold
+    - [ ] Report both $PCK_{img}$ and $PCK_{bbox}$
+    - [ ] Performance evaluation on **test split [SPair-71k on Hugging Face](https://huggingface.co/datasets/0jl/SPair-71k) **
+      - [ ] 12k image pairs from 18 categories
+    - [ ] Comparison to diffusion feature-based approach
+      - [ ] [Diffusion Features](https://diffusionfeatures.github.io/)
+      - [ ] [A Tale of Two Features](https://github.com/Junyi42/sd-dino)
+      - [ ] [Telling Left from Right](https://telling-left-from-right.github.io/)
+  - [ ] Performance in a supervised fine-tuning setting for semantic correspondence matching:
+    - [ ] [Diffusion Hyperfeatures](https://github.com/diffusion-hyperfeatures/diffusion_hyperfeatures)
 
 ---
 
@@ -127,8 +127,8 @@ The objective of this session is to use a Jupyter notebook to implement the new 
 
 ### Personal Takeaways
 
-- **Adam (Adaptive Moment Estimation)**  is an optimization algorithm used for training deep neural networks.
-    - Gradient descent-based method that adapts learning rate for each parameter individually based on estimations of the first moment and second moments of the gradients.
+- **Adam (Adaptive Moment Estimation)** is an optimization algorithm used for training deep neural networks.
+  - Gradient descent-based method that adapts learning rate for each parameter individually based on estimations of the first moment and second moments of the gradients.
 
 ---
 
