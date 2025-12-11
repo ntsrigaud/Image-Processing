@@ -210,3 +210,6 @@ Labs/Uniform-Quantization/.DS_Store
 Labs/Arithmetic-Operations/Arithmetic-Operations.ipynb
 Labs/DCT-Transform/DCT.pdf
 CleanDIFT/cleandift
+CleanDIFT/data/train
+CleanDIFT/checkpoints
+CleanDIFT/COLAB_TRAINING_GUIDE.md
