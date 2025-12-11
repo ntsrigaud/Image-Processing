@@ -213,3 +213,4 @@ CleanDIFT/cleandift
 CleanDIFT/data/train
 CleanDIFT/checkpoints
 CleanDIFT/COLAB_TRAINING_GUIDE.md
+CleanDIFT/scripts/data/train
