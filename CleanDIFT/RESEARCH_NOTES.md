@@ -18,7 +18,7 @@ This repository contains a comprehensive demonstration of CleanDIFT for the Imag
 - **No noise required** - works with clean images
 - **50x faster** - single forward pass vs ensemble methods
 - **No hyperparameter tuning** - timestep-independent features
-- **State-of-the-art** - 52% PCK on SPair-71K (semantic correspondence)
+- **State-of-the-art** - 68.32% PCK on SPair-71K (semantic correspondence, SD 2.1)
 - **Multi-task** - same features for correspondence, depth, segmentation
 
 ---
@@ -46,20 +46,15 @@ This repository contains a comprehensive demonstration of CleanDIFT for the Imag
   - Destroy information
   - Introduces the noise level as a hyperparameter that needs to be tuned for each task.
 
-> [!NOTE]
-> **Semantic correspondence** is a core computer vision task that establishes pixel-level correspondences across _instances within the same category_.
+> [!NOTE] > **Semantic correspondence** is a core computer vision task that establishes pixel-level correspondences across _instances within the same category_.
 
-> [!NOTE]
-> **Depth estimation** in diffusion models involves prediciting the depth of objects in images using advanced algorithms that leverage the principles of diffusion processes. These models can effectively handle challenging conditions and improve the accuracy of depth perception from single images by generating synthetic training data and refining depth estimates through iterative processes.
+> [!NOTE] > **Depth estimation** in diffusion models involves prediciting the depth of objects in images using advanced algorithms that leverage the principles of diffusion processes. These models can effectively handle challenging conditions and improve the accuracy of depth perception from single images by generating synthetic training data and refining depth estimates through iterative processes.
 
-> [!NOTE]
-> **Synthetic data** are artificial data created using algorithms to mimic the statistical properties of the real-world.
+> [!NOTE] > **Synthetic data** are artificial data created using algorithms to mimic the statistical properties of the real-world.
 
-> [!NOTE]
-> **Monocular depth estimation** is the process of estimating the distance of objects in a scene _from a single camera viewpoint_.
+> [!NOTE] > **Monocular depth estimation** is the process of estimating the distance of objects in a scene _from a single camera viewpoint_.
 
-> [!NOTE]
-> **Semantic segmentation** is a core computer vision taks that assigns a class label to every single pixel in an image, allowing the computer understand the scene's composition and the objects within it.
+> [!NOTE] > **Semantic segmentation** is a core computer vision taks that assigns a class label to every single pixel in an image, allowing the computer understand the scene's composition and the objects within it.
 
 ### CleanDIFT
 
@@ -99,8 +94,7 @@ This repository contains a comprehensive demonstration of CleanDIFT for the Imag
 - Fine-tune it with clean images and no timestep input;
 - Align its features with all $T$ time-dependent feature extractors of the diffusion model.
 
-> [!NOTE]
-> **Internal representation alignment** of neural networks helps ensure that their understanding and processing of information closely match human values and intentions, which is crucial for safe and effective AI behavior.
+> [!NOTE] > **Internal representation alignment** of neural networks helps ensure that their understanding and processing of information closely match human values and intentions, which is crucial for safe and effective AI behavior.
 
 ## Main Contributions
 
@@ -130,8 +124,7 @@ For a given dataset $X = \{x_1, \dots, x_m \}$:
 > [!NOTE]
 > We use **deep representations** in neural networks because the mathematical functions used are much easier to compute using deep networks rather than shallow networks.
 
-> [!NOTE]
-> **Contrastive objective** is a training strategy that aims to learn robust and discriminative representations by emphasizing the similarity between positive pairs of data points and the dissimilarity between negative pairs.
+> [!NOTE] > **Contrastive objective** is a training strategy that aims to learn robust and discriminative representations by emphasizing the similarity between positive pairs of data points and the dissimilarity between negative pairs.
 
 > [!NOTE]
 > Generation can also be interpreted as a pretext task for learning _expressive features_, since the model has to build up comprehensive world knowledge in order to generate plausible samples.
@@ -139,8 +132,7 @@ For a given dataset $X = \{x_1, \dots, x_m \}$:
 > [!NOTE]
 > Features from diffusion models are obtained by passing a noised image through the diffusion model and extracting **intermediate feature representations**.
 
-> [!NOTE]
-> **Knowledge distillation** is a technique used to distill knowledge from a _teacher model_ into a _student model_. It is applied in diffusion models to reduce the required denoising timesteps.
+> [!NOTE] > **Knowledge distillation** is a technique used to distill knowledge from a _teacher model_ into a _student model_. It is applied in diffusion models to reduce the required denoising timesteps.
 
 ## Diffusion Models
 
@@ -209,8 +201,7 @@ Extracts clean diffusion features through a lightweight fine-tuning process.
 - Sampling of multiple timesteps per image
   - Allow feature extraction model to match the diffusion model's features across the entire noise spectrum.
 
-> [!NOTE]
-> **Cosine similarity** is a metric that tells us how similar or different things are.
+> [!NOTE] > **Cosine similarity** is a metric that tells us how similar or different things are.
 
 ## Experiments
 
@@ -265,6 +256,7 @@ Extracts clean diffusion features through a lightweight fine-tuning process.
 #### Results
 
 - Comparison to Duffusion feature-based approach for semantic correspondence:
+
   - **_DIFT_**
   - Performance increase of 1.74 absolute for $\text{PCK}_{img}$
   - Performance increase of 1.86 absolute for $\text{PCK}_{bbox}$
@@ -274,6 +266,7 @@ Extracts clean diffusion features through a lightweight fine-tuning process.
   - Time-step dependent performance analysis:
 
     ![Time-step dependent performance analysis](https://compvis.github.io/cleandift/static/images/correspondence_quantitative.png)
+
     - CleanDIFT consistently outperform standard diffusion features.
     - The approach generalizes to other backbones.
 
@@ -299,8 +292,7 @@ Extracts clean diffusion features through a lightweight fine-tuning process.
     - Outperform single-step ablation of the comparative full method which requires a single forward pass
       - 9.0 percentage points for $PCK_{img}$ and 9.1 percentatage points for $PCK_{bbox}$
 
-> [!NOTE]
-> **DDIM (Denoising Diffusion Implicit Model)** is a technique in diffusion models that reverse the image process, mapping a real image back to its corresponding _noisy latent_ or initial noise seed. This allow controllable **image editing**, **manipulation** and **reconstruction** by treating the deterministic DDIM sampling as a reversible **Ordinary Differential Equation (ODE)**.
+> [!NOTE] > **DDIM (Denoising Diffusion Implicit Model)** is a technique in diffusion models that reverse the image process, mapping a real image back to its corresponding _noisy latent_ or initial noise seed. This allow controllable **image editing**, **manipulation** and **reconstruction** by treating the deterministic DDIM sampling as a reversible **Ordinary Differential Equation (ODE)**.
 
 ### Depth Estimation
 
@@ -339,8 +331,7 @@ Extracts clean diffusion features through a lightweight fine-tuning process.
 > [!NOTE]
 > A **segmentation mask** is a pixel-level map that identify and isolates specific regions or objects in an image, assigning a unique label to each pixel.
 
-> [!NOTE]
-> **Nearest neighbor upsampling** is the simplest image/data resizing method, where each pixel value from the original (low-res) grid is copied directly to a larger block of pixels in the output (high-res) grid.
+> [!NOTE] > **Nearest neighbor upsampling** is the simplest image/data resizing method, where each pixel value from the original (low-res) grid is copied directly to a larger block of pixels in the output (high-res) grid.
 
 #### Results
 
@@ -371,8 +362,7 @@ Extracts clean diffusion features through a lightweight fine-tuning process.
 - CleanDIFT slightly outperform the standard diffusion features even when using an optimal timestep $t$ for the base model.
   - Showcases that it does not introduce any detrimental effects.
 
-> [!NOTE]
-> **Spatial resolution** refers to the scale or size of the smallest unit of an image capable of distinguishing objects, or the measure of the smallest angular or linear distance to identify adjacent objects in an image.
+> [!NOTE] > **Spatial resolution** refers to the scale or size of the smallest unit of an image capable of distinguishing objects, or the measure of the smallest angular or linear distance to identify adjacent objects in an image.
 
 ### Ablation Studies
 
@@ -420,8 +410,7 @@ Extracts clean diffusion features through a lightweight fine-tuning process.
   - Substantially reducing inference costs compared to methods relying on **ensembling** or **inversion**.
 - Extensive evaluations of CleanDIFT across diverse downstream tasks demonstrate significant performance improvements over conventional diffusion features.
 
-> [!NOTE]
-> **Ensemble learning** is a machine learning technique that aggregates two or more learners (e.g. regression models, neural networks) in order to produce better predictions.
+> [!NOTE] > **Ensemble learning** is a machine learning technique that aggregates two or more learners (e.g. regression models, neural networks) in order to produce better predictions.
 
 ## Citations
 

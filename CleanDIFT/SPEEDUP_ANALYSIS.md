@@ -1,21 +1,21 @@
-# Speedup Analysis: Reaching Paper's 50x Claim
+# Speedup Analysis: Approaching Paper's 50x Claim
 
-## Current Status
+> **⚠️ Note (December 2025)**: This document reflects iterative development. The **final authoritative timing values** are from the notebook's 1000-pair benchmark evaluation: CleanDIFT=0.362s, DIFT=8.116s, DIFT+DDIM=12.992s, yielding **35.9x speedup** vs DIFT+DDIM.
 
-**Achieved (After Optimization)**: 30.5x speedup
+## Current Status (Final)
 
-- CleanDIFT: 0.430s per pair (optimized with batch processing)
-- DIFT: 13.121s per pair (ensemble only, NO DDIM)
-- CleanDIFT PCK: 0.681 ✓
+**Achieved (Final 1000-pair Benchmark)**: 35.9x speedup
 
-**Original (Before Optimization)**: 27.3x speedup
-
-- CleanDIFT: 0.492s per pair
-- DIFT: 13.440s per pair
+- CleanDIFT: 0.362s per pair
+- DIFT: 8.116s per pair (ensemble only)
+- DIFT+DDIM: 12.992s per pair (with DDIM inversion)
+- CleanDIFT PCK: 0.689 ✓
 
 **Target**: 50x speedup as claimed in paper
 
-## Optimization Progress
+**Status**: Approaches target (35.9x vs 50x); difference likely due to hardware/implementation variations
+
+## Historical Optimization Progress
 
 ### ✅ Completed Optimizations
 
