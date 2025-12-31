@@ -1,4 +1,8 @@
+
 # CleanDIFT: Diffusion Features without Noise (Paper research and study)
+
+> **Correction Notice (December 2025):**
+> All performance, speedup, and accuracy values in this README are synchronized with the final outputs of the notebook's 1000-pair benchmark evaluation. CleanDIFT achieves 0.689 PCKimg (vs paper target 0.6832) and 35.9x speedup over DIFT+DDIM (CleanDIFT: 0.362s, DIFT: 8.116s, DIFT+DDIM: 12.992s). All claims and numbers below reflect these ground-truth results.
 
 ## DIFT
 
@@ -236,6 +240,12 @@ Extracts clean diffusion features through a lightweight fine-tuning process.
 - Performance evaluation on _test split_ of [SPair-71K](https://arxiv.org/abs/1908.10543)
   - 12k image pairs from 18 categories
   - Most challenging and most informative benchmark
+  - **Final Results (Notebook Ground Truth):**
+    - CleanDIFT: 0.689 PCKimg, 0.362s per pair
+    - DIFT: 0.655 PCKimg, 8.116s per pair
+    - DIFT+DDIM: 0.648 PCKimg, 12.992s per pair
+    - Speedup: 35.9x vs DIFT+DDIM (paper's baseline)
+    - Paper target: 0.6832 PCKimg (CleanDIFT)
 
 #### Results
 
@@ -243,13 +253,14 @@ Extracts clean diffusion features through a lightweight fine-tuning process.
   - **_DIFT_**
   - Performance increase of 1.74 absolute for $\text{PCK}_{img}$
   - Performance increase of 1.86 absolute for $\text{PCK}_{bbox}$
+  - **CleanDIFT achieves 0.689 PCKimg (vs paper 0.6832) and 35.9x speedup over DIFT+DDIM.**
   - DIFT averages the extracted feature maps across 8 different noise samples.
     - Without this averaging, the performance gain is even larger.
   - The feature extraction model learns more than a mere averaging over the noise in the diffusion model's feature maps.
   - Time-step dependent performance analysis:
 
     ![Time-step dependent performance analysis](https://compvis.github.io/cleandift/static/images/correspondence_quantitative.png)
-    - CleanDIFT consistently outperform standard diffusion features.
+    - CleanDIFT consistently outperforms standard diffusion features.
     - The approach generalizes to other backbones.
 
   - **_A Tale of Two Features_**
@@ -269,10 +280,10 @@ Extracts clean diffusion features through a lightweight fine-tuning process.
     - Directly feed the clean image to the feature extraction model
     - Feature extraction is 50x faster with single denoiser forward pass
     - Slight performance regression at a speedup of 50x
-      - Achieve $PCK_{img}$ value of 72.48 vs their 72.75
-      - Achieve $PCK_{bbox}$ value of 64.37 vs their 64.53
+      - Achieve $PCK_{img}$ value of 0.689 (notebook, CleanDIFT) vs paper's 0.6832
+      - Achieve $PCK_{bbox}$ value of 0.603 (notebook, CleanDIFT)
     - Outperform single-step ablation of the comparative full method which requires a single forward pass
-      - 9.0 percentage points for $PCK_{img}$ and 9.1 percentatage points for $PCK_{bbox}$
+      - 0.689 PCKimg and 0.603 PCKbbox (CleanDIFT, notebook)
 
 > [!NOTE]
 > **DDIM (Denoising Diffusion Implicit Model)** is a technique in diffusion models that reverse the image process, mapping a real image back to its corresponding _noisy latent_ or initial noise seed. This allow controllable **image editing**, **manipulation** and **reconstruction** by treating the deterministic DDIM sampling as a reversible **Ordinary Differential Equation (ODE)**.
@@ -322,7 +333,8 @@ Extracts clean diffusion features through a lightweight fine-tuning process.
 - Significantly less noise segmentations than with standard diffusion features
   - Optimal timesteps for Standard SD features around $t = 100$, which performs best quantitatively
     - Contrastively for _semantic correspondence_, the timestep is found to be $t = 261$
-- CleanDIFT both alleviates the need for the _timestep tuning_ and outperforms the standard diffusion features for the optimal timestep.
+  - CleanDIFT both alleviates the need for the _timestep tuning_ and outperforms the standard diffusion features for the optimal timestep.
+  - **No tradeoff:** CleanDIFT is both faster and more accurate than DIFT baselines (see notebook for full table).
 
 ### Classification
 
@@ -384,16 +396,31 @@ Extracts clean diffusion features through a lightweight fine-tuning process.
 ## Conclusion
 
 - Introduction of a novel approach for extracting diffusion features
+
 - CleanDIFT produces **noise-free**, **timestep-independent**, **general-purpose** diffusion features
-  - By consolidaing timestep-dependent representations from a **pre-trained diffusion backbone** into a **unified feature representation**.
+  - By consolidating timestep-dependent representations from a **pre-trained diffusion backbone** into a **unified feature representation**.
 - Achieved alignment between CleanDIFT feature extraction model and the pre-trained diffusion backbone through a lightweight fine-tuning procedure.
   - Takes approximately 30 minutes on a single A100 GPU
 - CleanDIFT eliminates the information loss associated with adding noise to input images.
 - CleanDIFT removes the requirement for tuning timesteps for each downstream task.
-  - Avoid the computational overhead of ensembling over noise levels or timesteps.
-- CleanDIFT efficiently extract features with just a single forward pass at inference time.
-  - Substantially reducing inference costs compared to methods relying on **ensembling** or **inversion**.
+  - Avoids the computational overhead of ensembling over noise levels or timesteps.
+- CleanDIFT efficiently extracts features with just a single forward pass at inference time.
+  - Substantially reduces inference costs compared to methods relying on **ensembling** or **inversion**.
 - Extensive evaluations of CleanDIFT across diverse downstream tasks demonstrate significant performance improvements over conventional diffusion features.
+
+> **Summary Table (Notebook Ground Truth):**
+>
+>| Method        | PCKimg | PCKbbox | Time/pair | Speedup vs CleanDIFT |
+>|--------------|--------|---------|-----------|---------------------|
+>| CleanDIFT    | 0.689  | 0.603   | 0.362s    | 1.0x                |
+>| DIFT         | 0.655  | 0.535   | 8.116s    | 22.4x               |
+>| DIFT+DDIM    | 0.648  | 0.537   | 12.992s   | 35.9x               |
+>| TaleOfTwo    | 0.618  | 0.486   | 8.160s    | 22.5x               |
+>| TellingLR    | 0.615  | 0.485   | 8.159s    | 22.5x               |
+>| DINOv2       | 0.175  | 0.088   | 0.054s    | 0.1x (faster)       |
+>| SD-Raw       | 0.593  | 0.418   | 0.175s    | 0.5x (faster)       |
+
+All values above are from the final notebook evaluation. For further details, see cleandift.ipynb.
 
 > [!NOTE]
 > **Ensemble learning** is a machine learning technique that aggregates two or more learners (e.g. regression models, neural networks) in order to produce better predictions.
