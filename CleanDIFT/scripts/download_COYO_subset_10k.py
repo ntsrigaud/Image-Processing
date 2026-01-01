@@ -119,7 +119,7 @@ except Exception as e:
                     count += 1
                     if count % 10 == 0:
                         print(f"Downloaded {count} images...")
-        except:
+        except Exception:
             continue
 
     print(f"✓ Downloaded {count} training images (fallback dataset)")
