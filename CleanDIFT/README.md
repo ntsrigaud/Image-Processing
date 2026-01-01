@@ -14,7 +14,7 @@
 - Without any supervision, Diffusion Features can find **correspondences** on real images across _instances_, _categories_, and even _domains_.
   - Finding correspondences between images is a fundamental problem in computer vision.
 - DIFT extract the **correspondence** out of diffusion networks as image features, and use them to establish correspondence between real images.
-  - **Diffusion neural networks** (diffusion models), are a type of generative model used primarily for taasks like image generation.
+  - **Diffusion neural networks** (diffusion models), are a type of generative model used primarily for tasks like image generation.
     - Works by progressively adding noise to data and then learning to reverse the process to create new, high-quality samples that resemble the original data.
 - No fine-tuning or correspondence supervision.
 - Establish reasonable and accurate _semantic correspondence_.
