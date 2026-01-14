@@ -31,8 +31,8 @@ from PIL import Image
 
 # Constants
 RGB_WEIGHTS = [0.299, 0.587, 0.114]
-IMG_TITLE = "lena.png"
-OUTPUT_TITLE = "lena_converted.png"
+IMG_TITLE = "bear.jpg"
+OUTPUT_TITLE = "bear.jpg"
 
 
 def color_to_gray(img_title, output_title):
@@ -156,4 +156,4 @@ if __name__ == "__main__":
     )
 
     # Apply mapping to produce equalized image
-    equalized_img = apply_mapping(pixels, mapping, "lena_equalized.png")
+    equalized_img = apply_mapping(pixels, mapping, "bear_equalized.png")
